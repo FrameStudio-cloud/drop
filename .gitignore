@@ -1,0 +1,14 @@
+# deps + build output
+node_modules/
+dist/
+client/dist/
+
+# secrets — NEVER commit (server/.env holds your live Neon password)
+.env
+server/.env
+client/.env
+
+# local dev artifacts
+server/.data/
+client-dev.log/
+.playwright-mcp/

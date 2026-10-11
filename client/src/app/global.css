@@ -1,0 +1,166 @@
+/* drop design tokens — Apple HIG translated for web.
+   System type, semantic color, 44px targets, light+dark, no app toggle. */
+
+:root {
+  --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', Inter, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --bg: #f5f5f7;
+  --bg-2: #ffffff;
+  --bg-3: #ececf0;
+  --label: #1d1d1f;
+  --label-2: #6e6e73;
+  --label-3: #aeaeb2;
+  --accent: #0071e3;
+  --accent-pressed: #0060c9;
+  --success: #1d8127;
+  --danger: #d70015;
+  --separator: rgba(60, 60, 67, 0.18);
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+  --radius-l: 18px;
+  --radius-m: 12px;
+  --radius-s: 8px;
+
+  --title-1: 28px;
+  --title-2: 22px;
+  --body: 17px;
+  --callout: 15px;
+  --caption: 13px;
+  --caption-2: 11px;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --bg-2: #1c1c1e;
+    --bg-3: #2c2c2e;
+    --label: #f5f5f7;
+    --label-2: #a1a1a6;
+    --label-3: #6e6e73;
+    --accent: #0a84ff;
+    --accent-pressed: #409cff;
+    --separator: rgba(255, 255, 255, 0.18);
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.45);
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-system);
+  font-size: var(--body);
+  line-height: 1.45;
+  background: var(--bg);
+  color: var(--label);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100svh;
+}
+
+#root { min-height: 100svh; }
+
+.app-shell { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+.app-header {
+  position: sticky; top: 12px; z-index: 20;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin: 12px 0 20px; padding: 12px 16px;
+  border-radius: var(--radius-l);
+}
+.glass {
+  background: color-mix(in srgb, var(--bg-2) 72%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--separator);
+  box-shadow: var(--card-shadow);
+}
+.brand { display: flex; align-items: baseline; gap: 8px; margin-right: auto; }
+.brand-mark { font-size: 24px; color: var(--accent); }
+.brand-name { font-size: var(--title-2); font-weight: 700; letter-spacing: -0.4px; }
+.brand-sub { font-size: var(--caption); color: var(--label-2); }
+
+.tabs { display: flex; background: var(--bg-3); border-radius: 999px; padding: 3px; }
+.tab {
+  min-height: 44px; display: inline-flex; align-items: center;
+  padding: 0 18px; border-radius: 999px; text-decoration: none;
+  color: var(--label-2); font-size: var(--callout); font-weight: 600;
+}
+.tab.active { background: var(--bg-2); color: var(--label); box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
+
+.app-main { display: grid; gap: 16px; }
+.app-footer { margin-top: 28px; text-align: center; color: var(--label-2); font-size: var(--caption); }
+
+.card {
+  background: var(--bg-2); border: 1px solid var(--separator);
+  border-radius: var(--radius-l); box-shadow: var(--card-shadow);
+  padding: 20px;
+}
+.card h1 { font-size: var(--title-1); letter-spacing: -0.6px; margin: 0 0 6px; }
+.card h2 { font-size: var(--title-2); letter-spacing: -0.3px; margin: 0 0 6px; }
+.muted { color: var(--label-2); }
+.small { font-size: var(--caption); }
+
+.btn {
+  min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid transparent;
+  font-size: var(--body); font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  text-decoration: none;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-pressed); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary { background: var(--bg-3); color: var(--accent); }
+.btn-plain { background: transparent; color: var(--accent); min-height: 44px; }
+
+.field, .code-box {
+  min-height: 44px; font-size: var(--body); font-family: inherit;
+  background: var(--bg-2); color: var(--label);
+  border: 1px solid var(--separator); border-radius: var(--radius-m);
+  padding: 0 14px;
+}
+.field:focus-visible, .btn:focus-visible, .tab:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.dropzone {
+  border: 2px dashed var(--separator); border-radius: var(--radius-l);
+  padding: 36px 20px; text-align: center; cursor: pointer;
+  background: var(--bg-2); transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.dropzone:hover, .dropzone.dragging { border-color: var(--accent); transform: scale(1.005); }
+.dropzone .dz-title { font-size: var(--title-2); font-weight: 700; }
+.file-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 4px; border-bottom: 1px solid var(--separator);
+}
+.file-row:last-child { border-bottom: 0; }
+.file-icon { font-size: 22px; }
+.file-meta { flex: 1; min-width: 0; }
+.file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.progress { height: 8px; border-radius: 999px; background: var(--bg-3); overflow: hidden; }
+.progress > i { display: block; height: 100%; background: var(--accent); border-radius: inherit; transition: width 0.15s linear; }
+
+.code-display {
+  font-family: var(--font-mono); font-size: 40px; font-weight: 700; letter-spacing: 6px;
+  text-align: center; padding: 12px; user-select: all;
+}
+.code-grid { display: grid; grid-template-columns: repeat(6, 52px); gap: 8px; justify-content: center; }
+.code-box { width: 52px; text-align: center; font-size: 24px; font-weight: 700; padding: 0; }
+.code-box::placeholder { color: var(--label-3); }
+
+.device-nick { display: flex; align-items: center; gap: 8px; font-size: var(--caption); color: var(--label-2); }
+.device-nick input { max-width: 130px; min-height: 36px; font-size: var(--caption); }
+
+.empty { text-align: center; padding: 28px 12px; color: var(--label-2); }
+
+@media (max-width: 560px) {
+  .code-grid { grid-template-columns: repeat(6, 44px); }
+  .code-box { width: 44px; }
+  .app-shell { padding: 0 12px 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
