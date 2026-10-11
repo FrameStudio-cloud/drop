@@ -30,7 +30,7 @@ export default function SendPage() {
       <FilePicker files={files} onAdd={add} onRemove={remove} />
       <UploadProgress items={progress} />
       {error ? <p style={{ color: 'var(--danger)' }} role="alert">{error}</p> : null}
-      <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+      <div className="btn-row">
         <Button disabled={!files.length || status === 'uploading'} onClick={() => send(files)}>
           {status === 'uploading' ? 'Sending…' : `Send ${files.length ? `${files.length} file${files.length > 1 ? 's' : ''}` : ''}`}
         </Button>

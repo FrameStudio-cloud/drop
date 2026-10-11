@@ -48,6 +48,7 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--font-system);
   font-size: var(--body);
@@ -56,7 +57,9 @@ body {
   color: var(--label);
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
+  overflow-x: clip;
 }
+img, svg { max-width: 100%; }
 
 #root { min-height: 100svh; }
 
@@ -88,6 +91,8 @@ body {
 .tab.active { background: var(--bg-2); color: var(--label); box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
 
 .app-main { display: grid; gap: 16px; }
+/* Grid blowout guard: long filenames must ellipsize, never widen the card. */
+.app-main > * { min-width: 0; }
 .app-footer { margin-top: 28px; text-align: center; color: var(--label-2); font-size: var(--caption); }
 
 .card {
@@ -131,34 +136,95 @@ body {
 .dropzone:hover, .dropzone.dragging { border-color: var(--accent); transform: scale(1.005); }
 .dropzone .dz-title { font-size: var(--title-2); font-weight: 700; }
 .file-row {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap;
   padding: 12px 4px; border-bottom: 1px solid var(--separator);
 }
 .file-row:last-child { border-bottom: 0; }
 .file-icon { font-size: 22px; }
 .file-meta { flex: 1; min-width: 0; }
-.file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-name { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .progress { height: 8px; border-radius: 999px; background: var(--bg-3); overflow: hidden; }
 .progress > i { display: block; height: 100%; background: var(--accent); border-radius: inherit; transition: width 0.15s linear; }
 
 .code-display {
-  font-family: var(--font-mono); font-size: 40px; font-weight: 700; letter-spacing: 6px;
-  text-align: center; padding: 12px; user-select: all;
+  font-family: var(--font-mono);
+  font-size: clamp(30px, 11vw, 40px);
+  font-weight: 700;
+  letter-spacing: clamp(2px, 1.5vw, 6px);
+  text-align: center;
+  padding: 12px 4px;
+  user-select: all;
+  white-space: nowrap;
 }
-.code-grid { display: grid; grid-template-columns: repeat(6, 52px); gap: 8px; justify-content: center; }
-.code-box { width: 52px; text-align: center; font-size: 24px; font-weight: 700; padding: 0; }
+/* Fluid 6-box grid: always fits, boxes share whatever width exists. */
+.code-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+  max-width: 380px;
+  margin-inline: auto;
+}
+.code-box { width: 100%; min-width: 0; text-align: center; font-size: 24px; font-weight: 700; padding: 0; }
 .code-box::placeholder { color: var(--label-3); }
+
+/* Button rows + forms wrap instead of squeezing off-screen. */
+.btn-row { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.delete-form { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.delete-form .field { flex: 1 1 180px; min-width: 0; }
 
 .device-nick { display: flex; align-items: center; gap: 8px; font-size: var(--caption); color: var(--label-2); }
 .device-nick input { max-width: 130px; min-height: 36px; font-size: var(--caption); }
 
 .empty { text-align: center; padding: 28px 12px; color: var(--label-2); }
 
-@media (max-width: 560px) {
-  .code-grid { grid-template-columns: repeat(6, 44px); }
-  .code-box { width: 44px; }
+/* ---------- Phone-first responsive layer ---------- */
+
+.app-shell { padding-bottom: max(48px, env(safe-area-inset-bottom)); }
+.app-header { top: max(12px, env(safe-area-inset-top)); }
+
+@media (max-width: 640px) {
   .app-shell { padding: 0 12px 40px; }
+  .app-header {
+    gap: 10px;
+    padding: 10px 12px;
+    margin: 8px 0 16px;
+  }
+  .brand { flex: 1 1 100%; margin-right: 0; }
+  .brand-sub { display: none; }
+  /* Tabs take their own full-width row: 4 equal targets, thumb-reachable. */
+  .tabs { flex: 1 1 100%; order: 2; }
+  .tab {
+    flex: 1 1 0;
+    justify-content: center;
+    padding: 0 4px;
+    font-size: var(--caption);
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .device-nick { order: 3; }
+
+  .card { padding: 16px; border-radius: 16px; }
+  .card h1 { font-size: 24px; }
+  .card h2 { font-size: 20px; }
+
+  .dropzone { padding: 28px 14px; }
+  .dropzone .dz-title { font-size: 19px; }
+
+  .btn-row .btn { flex: 1 1 140px; }
+
+  .code-box { font-size: 20px; }
+  .code-grid { gap: 6px; }
+}
+
+@media (max-width: 380px) {
+  /* One-handed: actions go full-width under the file name. */
+  .file-row .btn, .file-row a.btn { flex: 1 1 100%; }
+  .delete-form .btn { flex: 1 1 100%; }
+  .btn { padding: 0 16px; }
+  .empty { padding: 20px 4px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

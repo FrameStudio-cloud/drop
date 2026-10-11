@@ -108,7 +108,7 @@ export default function StoragePage() {
         )}
 
         <form
-          style={{ display: 'flex', gap: 8, marginTop: 16 }}
+          className="delete-form"
           onSubmit={(e) => { e.preventDefault(); drop(manualCode); setManualCode('') }}
         >
           <input
@@ -118,7 +118,7 @@ export default function StoragePage() {
             aria-label="Transfer code to delete"
             value={manualCode}
             onChange={(e) => setManualCode(normalizeCode(e.target.value))}
-            style={{ flex: 1, fontFamily: 'var(--font-mono)' }}
+            style={{ fontFamily: 'var(--font-mono)' }}
           />
           <Button type="submit" variant="secondary" disabled={busy !== null}>
             Delete

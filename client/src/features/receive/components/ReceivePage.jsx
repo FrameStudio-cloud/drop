@@ -17,7 +17,7 @@ export default function ReceivePage() {
   return (
     <Card title="Receive files" sub="Type the 6-digit code from your other device.">
       <CodeInput value={code} onChange={setCode} />
-      <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+      <div className="btn-row">
         <Button disabled={code.replace(/\D/g, '').length !== 6 || status === 'loading'} onClick={() => fetchByCode(code)}>
           {status === 'loading' ? 'Looking…' : 'Find transfer'}
         </Button>
