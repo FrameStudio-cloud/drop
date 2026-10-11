@@ -10,5 +10,5 @@ client/.env
 
 # local dev artifacts
 server/.data/
-client-dev.log/
+client-dev.log
 .playwright-mcp/
